@@ -39,7 +39,7 @@ class Content extends Component {
         <div className={classes.toolbar} />
         <Grid container className={classes.content} spacing={16} >
           {mockData.map( (item, index ) => (
-            <Grid item xs={12} sm={6} md={3} >
+            <Grid key={index} item xs={12} sm={6} md={3} >
               <WeiboCard data={item} />
             </Grid>
           ))}

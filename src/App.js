@@ -8,6 +8,7 @@ import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import WeiBoDrawer from "./WeiBoDrawer.js";
 import SimpleActionBar from "./ActionBar.js";
 import Content from "./Content.js";
+import LoginDialog from "./LoginDialog.js";
 
 const styles = theme => ({
   root: {
@@ -28,7 +29,8 @@ const theme = createMuiTheme({
 
 class App extends Component {
   state = {
-    isDrawerOpen: false
+    isDrawerOpen: false,
+    isLoginDialogOpen: false
   };
   handleToggleDrawer(isOpen) {
     return () => {
@@ -37,14 +39,39 @@ class App extends Component {
       })
     }
   };
+
+  handleDialog(isOpen) {
+    const status = {
+      open: true,
+      close: false
+    };
+    console.log(isOpen);
+    return () => {
+        this.setState({
+          isLoginDialogOpen: status[isOpen],
+        })
+    }
+  };
+
   render() {
     const { classes } = this.props;
     return (
       <MuiThemeProvider theme={theme}>
           <Reboot />
           <div className={classes.root} color="primary">
-            <SimpleActionBar openDrawer={this.handleToggleDrawer(true).bind(this)}/>
-            <WeiBoDrawer variant="permanent" isDrawerOpen={this.state.isDrawerOpen} closeDrawer={this.handleToggleDrawer(false).bind(this)} />
+            <SimpleActionBar
+              openDrawer={this.handleToggleDrawer(true).bind(this)}
+              openDialog={this.handleDialog('open').bind(this)}
+            />
+            <LoginDialog
+              open={this.state.isLoginDialogOpen}
+              onClose={this.handleDialog('close').bind(this)}
+            />
+            <WeiBoDrawer
+              variant="permanent"
+              isDrawerOpen={this.state.isDrawerOpen}
+              closeDrawer={this.handleToggleDrawer(false).bind(this)}
+            />
             <Content />
           </div>
       </MuiThemeProvider>

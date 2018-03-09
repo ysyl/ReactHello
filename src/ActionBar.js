@@ -25,7 +25,7 @@ const styles =  theme => ({
 });
 
 function SimpleActionBar(props) {
-  const { classes, openDrawer } = props;
+  const { classes, openDrawer, openDialog } = props;
 
   return (
     <div className={classes.root}>
@@ -37,7 +37,7 @@ function SimpleActionBar(props) {
           <Typography variant="title" className={classes.flex}>
             MyName
           </Typography>
-          <Button>Login</Button>
+          <Button onClick={openDialog}>Login</Button>
         </Toolbar>
       </AppBar>
     </div>
