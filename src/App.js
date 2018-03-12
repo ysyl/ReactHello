@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
-import Button from 'material-ui/Button';
 import Reboot from 'material-ui/Reboot';
 import { withStyles } from 'material-ui/styles';
 import blue from 'material-ui/colors/blue';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
+import { Switch, Route } from 'react-router-dom';
 
-import WeiBoDrawer from "./WeiBoDrawer.js";
-import SimpleActionBar from "./ActionBar.js";
-import Content from "./Content.js";
-import LoginDialog from "./LoginDialog.js";
+import Layout from './layouts/Layout.js';
+import Home from './views/Home.js';
 
 const styles = theme => ({
   root: {
@@ -28,52 +26,17 @@ const theme = createMuiTheme({
 });
 
 class App extends Component {
-  state = {
-    isDrawerOpen: false,
-    isLoginDialogOpen: false
-  };
-  handleToggleDrawer(isOpen) {
-    return () => {
-      this.setState({
-        isDrawerOpen: isOpen
-      })
-    }
-  };
-
-  handleDialog(isOpen) {
-    const status = {
-      open: true,
-      close: false
-    };
-    console.log(isOpen);
-    return () => {
-        this.setState({
-          isLoginDialogOpen: status[isOpen],
-        })
-    }
-  };
 
   render() {
     const { classes } = this.props;
     return (
       <MuiThemeProvider theme={theme}>
           <Reboot />
-          <div className={classes.root} color="primary">
-            <SimpleActionBar
-              openDrawer={this.handleToggleDrawer(true).bind(this)}
-              openDialog={this.handleDialog('open').bind(this)}
-            />
-            <LoginDialog
-              open={this.state.isLoginDialogOpen}
-              onClose={this.handleDialog('close').bind(this)}
-            />
-            <WeiBoDrawer
-              variant="permanent"
-              isDrawerOpen={this.state.isDrawerOpen}
-              closeDrawer={this.handleToggleDrawer(false).bind(this)}
-            />
-            <Content />
-          </div>
+          <Layout>
+            <Switch>
+              <Route exact path='/' component={Home} />
+            </Switch>
+          </Layout>
       </MuiThemeProvider>
     );
   }

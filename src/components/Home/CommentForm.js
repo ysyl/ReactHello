@@ -12,6 +12,7 @@ const styles = theme => ({
   }
 })
 
+@withStyles(styles)
 class CommentForm extends Component {
   constructor() {
     super();
@@ -44,4 +45,4 @@ class CommentForm extends Component {
     )
   }
 }
-export default withStyles(styles)(CommentForm);
+export default CommentForm;
