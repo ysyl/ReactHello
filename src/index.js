@@ -22,7 +22,7 @@ const initialState = [
   }
 ];
 
-const store = configureStore(null);
+const store = configureStore();
 
 const history = syncHistoryWithStore(browserHistory, store);
 

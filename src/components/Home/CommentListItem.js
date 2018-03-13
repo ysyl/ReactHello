@@ -28,28 +28,27 @@ const styles = theme => ({
 
 function CommentListItem(props) {
   const { classes, comment, onReply } = props;
+  const { arthor, content, createAt, reply } = comment;
 
   return (
     <Card className={classes.card} elevation={0}>
       <CardHeader
         className={classes.cardHeader}
         avatar={
-          <Avatar>
-            R
-          </Avatar>
+          <Avatar src={arthor.avatar} />
         }
         action={
           <CardMenu />
         }
         title={
           <Typography component="a" href="#" className={classes.username}>
-            username
+            {arthor.username}
           </Typography>
         }
         />
       <CardContent>
         <Typography>
-          {comment.content}
+          {content}
         </Typography>
       </CardContent>
       <CardActions>

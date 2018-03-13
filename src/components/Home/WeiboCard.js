@@ -18,35 +18,6 @@ import mediaImg from '../../img/paella.jpg';
 import CardMenuAndButton from './CardMenu.js';
 import CommentsList from './CommentsList.js';
 
-const commentDataList = [
-  {
-    user: {
-      username:"zhou",
-      id:1,
-      avatar:"z"
-    },
-    id:1,
-    content: "测试内容1测试内容1测试内容1测试内容1测试内容1测试内容1测试内容1测试内容1",
-  },
-  {
-    user: {
-      username:"zhou",
-      id:1,
-      avatar:"z"
-    },
-    id:2,
-    content: "测试内容2",
-  },
-  {
-    user: {
-      username:"zhou",
-      id:1,
-      avatar:"z"
-    },
-    id:3,
-    content: "测试内容3",
-  },
-];
 
 const styles = theme => ({
   card: {
@@ -75,6 +46,7 @@ const styles = theme => ({
   }
 })
 
+@withStyles(styles)
 class WeiboCard extends Component {
   constructor() {
     super();
@@ -92,23 +64,27 @@ class WeiboCard extends Component {
 
   render() {
     const { classes, data} = this.props;
-    const {avatar, username, images, content} = data;
+    const {
+      arthor,
+      image,
+      content,
+      createAt,
+      comments
+    } = data;
     return (
       <div>
         <Card className={ classes.card }>
           <CardHeader
             avatar={
-              <Avatar className={classes.avatar}>
-                {avatar}
-              </Avatar>
+              <Avatar src={arthor.avatar} className={classes.avatar} />
             }
             action={
               <CardMenuAndButton />
             }
-            title="Title"/>
+            title={arthor.username}/>
           <CardMedia
             className={classes.media}
-            image={images}
+            image={image}
             title="MediaImg"
           />
           <CardContent>
@@ -134,7 +110,7 @@ class WeiboCard extends Component {
           </CardActions>
           <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
             <CardContent className={classes.commentList}>
-              <CommentsList commentDataList={commentDataList} />
+              <CommentsList comments={comments} />
             </CardContent>
           </Collapse>
         </Card>
@@ -145,12 +121,4 @@ class WeiboCard extends Component {
 
 
 
-const cardtest = props => {
-  return (
-    <div>
-      测试
-    </div>
-  )
-};
-
-export default withStyles(styles)(WeiboCard);
+export default WeiboCard;

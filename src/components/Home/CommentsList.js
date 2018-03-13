@@ -27,19 +27,19 @@ class CommentsList extends Component {
 
   state = {
     replyTo:{
-      commentId:0,
+      replyCommentId:0,
       username:"",
       content:"",
     },
   };
 
-  handleClickReply = (id) => {
+  handleClickReply = (commentId, username) => {
     return () => {
       console.log(this);
         this.setState({
           replyTo: {
-            commentId:id,
-            username: findUserByCommentId(id),
+            replyCommentId:commentId,
+            username: username,
             content:""
           }
         });
@@ -47,14 +47,16 @@ class CommentsList extends Component {
   }
 
   render() {
-      const { classes,commentDataList } = this.props;
+      const { classes,comments } = this.props;
 
       return (
         <div>
           <List className={classes.list} >
-            { commentDataList.map( (comment, index) => (
+            { comments.map( (comment, index) => (
               <ListItem dense divider key={index}>
-                  <CommentListItem comment={comment} onReply={this.handleClickReply(comment.id)} />
+                  <CommentListItem comment={comment} onReply={
+                      this.handleClickReply(comment.id, comment.arthor.username)
+                    } />
               </ListItem>
             ))}
           </List>

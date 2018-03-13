@@ -14,8 +14,8 @@ const reducer = combineReducers({
   routing: routerReducer
 });
 
-function configureStore(initialState) {
-  const store = finalCreateStore(reducer, initialState);
+function configureStore() {
+  const store = finalCreateStore(reducer);
 
   return store;
 }

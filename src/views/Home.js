@@ -3,6 +3,8 @@ import { withStyles } from 'material-ui/styles';
 import classnames from 'classnames';
 import Grid from 'material-ui/Grid';
 
+import axios from 'axios';
+
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 
@@ -44,6 +46,7 @@ class Home extends Component {
 
   componentDidMount() {
     this.props.loadWeibo();
+    axios.get('localhost:8080/web/comment/all').then(result=>{alert(result)}).catch( err => {alert(err)})
   }
 
   render() {

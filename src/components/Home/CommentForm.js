@@ -29,8 +29,9 @@ class CommentForm extends Component {
   }
 
   render() {
-    const { classes, commentId, username, replyTo } = this.props;
-    let defaultValue = replyTo.commentId !== 0 ? `回复 ${replyTo.username}: ` : "";
+    const { classes, replyTo } = this.props;
+    let { replyCommentId, username } = replyTo;
+    let defaultValue = replyTo.replyCommentId == 0? "" : `回复 ${replyTo.username}: ` ;
     console.log(defaultValue)
     return (
       <div className={classes.form}>

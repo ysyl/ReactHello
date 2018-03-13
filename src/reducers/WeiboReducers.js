@@ -1,3 +1,8 @@
+import avatarJpg from '../img/avatar/avatar.jpg';
+import exampleJpg from '../img/paella.jpg';
+
+import axios from 'axios';
+
 const FINDUSERBYID = 'FINDUSERBYID';
 const FINALLDWEIBOBYUSERID = 'findAllWeiboByUserId';
 const FINDALLWEIBO = 'findAllWeibo';
@@ -25,52 +30,104 @@ export const findAllWeiboAction = uid => {
 const mockTime = new Date();
 mockTime.setFullYear(2009);
 
+const mockLikeCount = 224;
 
 const initialComment = {
+  id:1,
   content:'测试评论',
-  arthor: 'od',
+  arthor: {
+    id:2,
+    username: 'admin',
+    avatar: avatarJpg,
+  },
   createAt: mockTime,
-  reply: -1,
+  reply: 0,
 }
 
 const initialReplyComment = {
+  id:2,
+  arthor:{
+    id:3,
+    username: 'od',
+    avatar: avatarJpg,
+  },
   content:'测试回复',
-  arthor: 'zhou',
   createAt: mockTime,
   reply:1 //user id
 }
 
-export const initialState = [
-  {
-    arthor:'admin',
-    content: '测试微薄1',
+const initialState = {
+    arthor:{
+      id:1,
+      username: 'zhou',
+      avatar:avatarJpg,
+    },
+    content: '测试微薄21',
     createAt: mockTime,
-    like:224,
-    comments: [initialComment, initialReplyComment]
-  }
-];
+    like:mockLikeCount,
+    comments: [initialComment, initialReplyComment],
+    image:exampleJpg,
+  };
 
-const mockData = [
-  {
-    arthor:'mock',
-    content:'mockContent',
+/*
+weibo数据
+ {
+    arthor:{
+      id:int,
+      username: String,
+      avatar:String,
+    },
+    content: String,
+    createAt: Date,
+    like:int,
+    comments: List<Comment>,
+    image:String,
+  }
+
+Comment
+{
+  id:int,
+  arthor:{
+    id:int,
+    username: String,
+    avatar: String,
+  },
+  content:String,
+  createAt: Date,
+  reply:int //user id
+}
+
+*/
+
+let repeatInitialState = (new Array(10).fill(initialState)).map( (item, index) => ({
+  ...initialState,
+  id: index+1,
+}));
+
+
+const mockData = {
+    arthor:{
+      id:1,
+      username: 'zhou',
+      avatar:avatarJpg,
+    },
+    content: '测试微薄Actisdfon1',
     createAt: mockTime,
-    comments:[initialComment]
-  }
-]
+    like:mockLikeCount,
+    comments: [initialComment, initialReplyComment],
+    image:exampleJpg,
+  };
+let repeatMockData = (new Array(10).fill(mockData)).map( (item, index) => ({
+  ...mockData,
+  id: index+1,
+}));
 
-export default function weibo(state = initialState, action) {
-  switch (action) {
+export default function weibo(state = repeatInitialState, action) {
+  switch (action.type) {
     case FINDALLWEIBO:
-      console.log("test")
-      return {
-        mockData
-      }
-      break;
-    case FINALLDWEIBOBYUSERID:
-      return null
+      return repeatMockData;
       break;
     default:
-      return state;
+      return repeatMockData;
   }
 }
