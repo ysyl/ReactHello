@@ -5,7 +5,7 @@ import { withStyles } from 'material-ui/styles';
 import blue from 'material-ui/colors/blue';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 
-import { Switch, Route, }
+import { Switch, Route } from 'react-router-dom';
 
 import WeiBoDrawer from "./WeiBoDrawer.js";
 import SimpleActionBar from "./ActionBar.js";
@@ -31,7 +31,7 @@ const styles = theme => ({
   },
 });
 
-
+@withStyles(styles)
 class Layout extends Component {
   state = {
     isDrawerOpen: false,

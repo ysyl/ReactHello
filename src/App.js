@@ -5,8 +5,14 @@ import blue from 'material-ui/colors/blue';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import { Switch, Route } from 'react-router-dom';
 
+import { connect, Provider } from 'react-redux';
+import { Link } from 'react-router-dom';
+
 import Layout from './layouts/Layout.js';
-import Home from './views/Home.js';
+
+const ConnectedSwitch =  connect(state => ({
+  location: state.location
+}))(Switch);
 
 const styles = theme => ({
   root: {
@@ -28,14 +34,12 @@ const theme = createMuiTheme({
 class App extends Component {
 
   render() {
-    const { classes } = this.props;
+    const { classes,children } = this.props;
     return (
       <MuiThemeProvider theme={theme}>
           <Reboot />
           <Layout>
-            <Switch>
-              <Route exact path='/' component={Home} />
-            </Switch>
+            {children}
           </Layout>
       </MuiThemeProvider>
     );

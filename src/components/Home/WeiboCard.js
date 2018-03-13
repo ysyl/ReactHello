@@ -14,7 +14,7 @@ import classnames from 'classnames';
 import IconButton from 'material-ui/IconButton';
 import Button from 'material-ui/Button';
 
-import mediaImg from './img/paella.jpg';
+import mediaImg from '../../img/paella.jpg';
 import CardMenuAndButton from './CardMenu.js';
 import CommentsList from './CommentsList.js';
 

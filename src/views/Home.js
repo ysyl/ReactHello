@@ -3,7 +3,13 @@ import { withStyles } from 'material-ui/styles';
 import classnames from 'classnames';
 import Grid from 'material-ui/Grid';
 
+import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
+
 import WeiboCard from '../components/Home/WeiboCard.js';
+import { findAllWeiboAction } from '../reducers/WeiboReducers.js';
+
+import mediaImg from '../img/paella.jpg';
 
 let mockData = new Array(30).fill({
   avatar:'R',
@@ -21,17 +27,30 @@ const styles = theme =>({
   },
 })
 
+@connect(
+  state => ({
+    weiboList: state.root.home
+  }),
+  {
+    loadWeibo:findAllWeiboAction,
+    push
+  }
+)
 @withStyles(styles)
 class Home extends Component {
   constructor() {
     super();
   }
 
+  componentDidMount() {
+    this.props.loadWeibo();
+  }
+
   render() {
-    const { classes } = this.props;
+    const { classes, weiboList } = this.props;
     return (
       <Grid container className={classes.content} spacing={16} >
-        {mockData.map( (item, index ) => (
+        {weiboList.map( (item, index ) => (
           <Grid key={index} item xs={12} sm={6} md={3} >
             <WeiboCard data={item} />
           </Grid>
