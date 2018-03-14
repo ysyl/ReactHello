@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 
 import WeiboCard from '../components/Home/WeiboCard.js';
-import { findAllWeiboAction } from '../reducers/WeiboReducers.js';
+import { load_allweibo } from '../reducers/WeiboReducers.js';
 
 import mediaImg from '../img/paella.jpg';
 
@@ -31,10 +31,10 @@ const styles = theme =>({
 
 @connect(
   state => ({
-    weiboList: state.root.home
+    weiboList: state.root.home.weiboList
   }),
   {
-    loadWeibo:findAllWeiboAction,
+    loadWeibo:load_allweibo,
     push
   }
 )
@@ -46,7 +46,6 @@ class Home extends Component {
 
   componentDidMount() {
     this.props.loadWeibo();
-    axios.get('localhost:8080/web/comment/all').then(result=>{alert(result)}).catch( err => {alert(err)})
   }
 
   render() {

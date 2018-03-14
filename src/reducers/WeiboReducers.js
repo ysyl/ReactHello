@@ -6,6 +6,11 @@ import axios from 'axios';
 const FINDUSERBYID = 'FINDUSERBYID';
 const FINALLDWEIBOBYUSERID = 'findAllWeiboByUserId';
 const FINDALLWEIBO = 'findAllWeibo';
+const LOAD_ALLWEIBO = 'LOAD_ALLWEIBO';
+const LOAD_ALLWEIBO_SUCCESS = 'LOAD_ALLWEIBO_SUCCESS';
+const LOAD_ALLWEIBO_ERROR = 'LOAD_ALLWEIBO_ERROR';
+
+const URL_FINDALLWEIBO = "http://localhost:8080/web/weibo/all";
 
 const findUserById = id => {
   return {
@@ -14,7 +19,7 @@ const findUserById = id => {
   }
 }
 
-export const findAllWeiboAction = uid => {
+const findAllWeiboAction = uid => {
   if(!uid) {
     return {
       type: FINDALLWEIBO,
@@ -122,12 +127,61 @@ let repeatMockData = (new Array(10).fill(mockData)).map( (item, index) => ({
   id: index+1,
 }));
 
-export default function weibo(state = repeatInitialState, action) {
+const initialAsyncState = {
+  loading: true,
+  error: false,
+  weiboList:[],
+}
+
+export function load_allweibo() {
+  return (dispatch, getState) => {
+
+    axios.get(URL_FINDALLWEIBO)
+      .then( result => {
+        dispatch({
+          type: LOAD_ALLWEIBO_SUCCESS,
+          payload: result.data,
+        })
+      })
+      .catch( error => {
+        dispatch({
+          type: LOAD_ALLWEIBO_ERROR,
+          payload: error
+        })
+      });
+
+      dispatch({
+        type: LOAD_ALLWEIBO
+      })
+  }
+}
+
+
+export default function weibo(state = initialAsyncState, action) {
   switch (action.type) {
-    case FINDALLWEIBO:
-      return repeatMockData;
+    case LOAD_ALLWEIBO:
+      return {
+        ...state,
+        loading: true,
+        error: false,
+      };
+      break;
+    case LOAD_ALLWEIBO_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: false,
+        weiboList: action.payload
+      }
+      break;
+    case LOAD_ALLWEIBO_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: true,
+      }
       break;
     default:
-      return repeatMockData;
+      return state;
   }
 }
