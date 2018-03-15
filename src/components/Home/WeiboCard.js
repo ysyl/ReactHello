@@ -18,6 +18,9 @@ import mediaImg from '../../img/paella.jpg';
 import CardMenuAndButton from './CardMenu.js';
 import CommentsList from './CommentsList.js';
 
+import { connect } from 'react-redux';
+
+import { load_commentsByWeiboId } from '../../reducers/CommentReducers.js';
 
 const styles = theme => ({
   card: {
@@ -46,31 +49,42 @@ const styles = theme => ({
   }
 })
 
+@connect(
+  state => ({
+    commentsStatus: state.root.comment
+  }),{
+    loadCommentByWeiboId: load_commentsByWeiboId,
+  }
+)
 @withStyles(styles)
 class WeiboCard extends Component {
   constructor() {
     super();
   }
   state = {
-    //详情展开，可用于展示评论
+    //详情展开，可用于展示评论, 应该在获取到评论数据后再展开
     expanded: false,
   };
 
-  handleExpandClick = () => {
-    this.setState({
-      expanded: !this.state.expanded,
-    })
+  handleExpandClick = (weiboId) => {
+    return () => {
+      if (this.props.commentsStatus.commentsMap[weiboId] == undefined) {
+        this.props.loadCommentByWeiboId(weiboId);
+      };
+      this.setState({
+        expanded: !this.state.expanded,
+      });
+    }
   };
 
   render() {
-    const { classes, data} = this.props;
+    const { classes, weibo, commentsStatus, loadCommentByWeiboId } = this.props;
     const {
       arthor,
       image,
       content,
       createAt,
-      comments
-    } = data;
+    } = weibo;
     return (
       <div>
         <Card className={ classes.card }>
@@ -101,16 +115,17 @@ class WeiboCard extends Component {
             </IconButton>
 
             <Button
-              onClick={this.handleExpandClick}
-              aria-expanded={this.state.expanded}
-              aria-label="Show more"
+              onClick={this.handleExpandClick(arthor.id)}
             >
               查看评论
             </Button>
           </CardActions>
           <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
             <CardContent className={classes.commentList}>
-              <CommentsList comments={comments} />
+              <CommentsList
+                commentsList={commentsStatus.commentsMap[weibo.id]}
+                weiboId={weibo.id}
+              />
             </CardContent>
           </Collapse>
         </Card>

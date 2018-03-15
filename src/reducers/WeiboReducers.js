@@ -10,7 +10,7 @@ const LOAD_ALLWEIBO = 'LOAD_ALLWEIBO';
 const LOAD_ALLWEIBO_SUCCESS = 'LOAD_ALLWEIBO_SUCCESS';
 const LOAD_ALLWEIBO_ERROR = 'LOAD_ALLWEIBO_ERROR';
 
-const URL_FINDALLWEIBO = "http://localhost:8080/web/weibo/all";
+const URL_FINDALLWEIBO = "http://localhost:8080/weibo/all";
 
 const findUserById = id => {
   return {
@@ -61,19 +61,6 @@ const initialReplyComment = {
   reply:1 //user id
 }
 
-const initialState = {
-    arthor:{
-      id:1,
-      username: 'zhou',
-      avatar:avatarJpg,
-    },
-    content: '测试微薄21',
-    createAt: mockTime,
-    like:mockLikeCount,
-    comments: [initialComment, initialReplyComment],
-    image:exampleJpg,
-  };
-
 /*
 weibo数据
  {
@@ -104,28 +91,7 @@ Comment
 
 */
 
-let repeatInitialState = (new Array(10).fill(initialState)).map( (item, index) => ({
-  ...initialState,
-  id: index+1,
-}));
 
-
-const mockData = {
-    arthor:{
-      id:1,
-      username: 'zhou',
-      avatar:avatarJpg,
-    },
-    content: '测试微薄Actisdfon1',
-    createAt: mockTime,
-    like:mockLikeCount,
-    comments: [initialComment, initialReplyComment],
-    image:exampleJpg,
-  };
-let repeatMockData = (new Array(10).fill(mockData)).map( (item, index) => ({
-  ...mockData,
-  id: index+1,
-}));
 
 const initialAsyncState = {
   loading: true,

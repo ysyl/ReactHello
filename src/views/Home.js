@@ -10,16 +10,9 @@ import { push } from 'react-router-redux';
 
 import WeiboCard from '../components/Home/WeiboCard.js';
 import { load_allweibo } from '../reducers/WeiboReducers.js';
+import { load_commentsByWeiboId } from "../reducers/CommentReducers.js";
 
 import mediaImg from '../img/paella.jpg';
-
-let mockData = new Array(30).fill({
-  avatar:'R',
-  username: 'username',
-  images:mediaImg,
-  content:`This impressive paella is a perfect party dish and a fun meal to cook together with
-  your guests. Add 1 cup of frozen peas along with the mussels, if you like.`,
-});
 
 const styles = theme =>({
   content: {
@@ -31,10 +24,11 @@ const styles = theme =>({
 
 @connect(
   state => ({
-    weiboList: state.root.home.weiboList
+    weiboList: state.root.weibo.weiboList,
   }),
   {
     loadWeibo:load_allweibo,
+    loadCommentByWeiboId: load_commentsByWeiboId,
     push
   }
 )
@@ -49,12 +43,14 @@ class Home extends Component {
   }
 
   render() {
-    const { classes, weiboList } = this.props;
+    const { classes, weiboList, loadCommentByWeiboId } = this.props;
     return (
       <Grid container className={classes.content} spacing={16} >
         {weiboList.map( (item, index ) => (
           <Grid key={index} item xs={12} sm={6} md={3} >
-            <WeiboCard data={item} />
+            <WeiboCard
+              weibo={item}
+              loadCommentByWeiboId={ loadCommentByWeiboId } />
           </Grid>
         ))}
       </Grid>

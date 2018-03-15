@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { withStyles } from "material-ui/styles";
 import List, { ListItem } from "material-ui/List";
 import Divider from 'material-ui/Divider';
+import Typography from 'material-ui/Typography';
+
 
 import CommentListItem from "./CommentListItem.js";
 import CommentForm from "./CommentForm.js";
@@ -20,6 +22,9 @@ const findUserByCommentId = id => {
   return usernameList[id - 1];
 }
 
+
+
+@withStyles(styles)
 class CommentsList extends Component {
   constructor() {
     super();
@@ -41,29 +46,35 @@ class CommentsList extends Component {
             replyCommentId:commentId,
             username: username,
             content:""
-          }
+          },
         });
     }
   }
 
+
   render() {
-      const { classes,comments } = this.props;
+      const { classes,commentsList, weiboId } = this.props;
+      console.log(weiboId);
 
       return (
         <div>
-          <List className={classes.list} >
-            { comments.map( (comment, index) => (
-              <ListItem dense divider key={index}>
-                  <CommentListItem comment={comment} onReply={
-                      this.handleClickReply(comment.id, comment.arthor.username)
-                    } />
-              </ListItem>
-            ))}
-          </List>
+          {
+            commentsList == undefined
+            ? <Typography>Loading</Typography>
+            : <List className={classes.list} >
+                { commentsList.map( (comment, index) => (
+                  <ListItem dense divider key={index}>
+                      <CommentListItem comment={comment} onReply={
+                          this.handleClickReply(comment.id, comment.arthorName)
+                        } />
+                  </ListItem>
+                ))}
+              </List>
+          }
           <CommentForm replyTo={this.state.replyTo} />
         </div>
       )
   }
 }
 
-export default withStyles(styles)(CommentsList);
+export default CommentsList;
